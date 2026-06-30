@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/my_nav_graph">
+
+</navigation>
+
+    <!-- Questo file conterrà la mappa di tutti i Fragment definiti in precedenza
+    e le azioni (arrows) per spostarsi tra di essi, configurando il plugin Safe Args
+     affinché il click su una canzone nella libreria passi in modo tipizzato e sicuro l'ID del brano al PlayerFragment. -->

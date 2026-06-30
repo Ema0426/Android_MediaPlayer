@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,3 +17,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!-- ogni file XML dovrà essere racchiuso dal tag <layout> radice per
+    permettere al compilatore di generare le classi di Data Binding, inserendo
+    al suo interno il tag <data> per collegare il MusicViewModel. Il file
+    activity_main.xml conterrà esclusivamente un FragmentContainerView
+    (che funge da NavHost) e, nella parte inferiore, una BottomNavigationView.
+    I restanti file (es. fragment_library.xml, fragment_player.xml e il layout
+    della singola riga item_song.xml) sfrutteranno estensivamente i ConstraintLayout
+    per posizionare in modo ottimale cover, testi e pulsanti in relazione alle Guideline,
+     assicurando la responsività su tutti i dispositivi. -->

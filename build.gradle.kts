@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.android.application) apply false
 
-    // dipendenze aggiunte da noi
     alias(libs.plugins.navigation.safe.args) apply false
     alias(libs.plugins.google.services) apply false
 }
