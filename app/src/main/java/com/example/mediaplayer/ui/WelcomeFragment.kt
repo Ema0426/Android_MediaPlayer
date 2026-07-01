@@ -1,14 +1,11 @@
 package com.example.mediaplayer.ui
 
 import android.app.Activity.RESULT_OK
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mediaplayer.R
@@ -44,6 +41,32 @@ class WelcomeFragment : Fragment() {
         return biding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val user = FirebaseAuth.getInstance().currentUser
+        if(user != null){
+            navigateToLibrary()
+        }else{
+            biding.btnLogin.setOnClickListener {
+                startSignInFlow()
+            }
+        }
+    }
+
+    private fun startSignInFlow() {
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+
+        signInLauncher.launch(signInIntent)
+    }
     /*
         Laboratorio FireBase
     */
@@ -57,15 +80,14 @@ class WelcomeFragment : Fragment() {
     private fun onSignInResult(res: FirebaseAuthUIAuthenticationResult?) {
         val response = res?.idpResponse
         if (res?.resultCode == RESULT_OK) {
-            val user = FirebaseAuth.getInstance().currentUser
-            val intent = Intent(requireContext(), LibraryFragment::class.java)
-            intent.putExtra("user_uid", user?.uid)
-
-            startActivity(intent)
-            activity?.finish()
+            navigateToLibrary()
         } else {
             Log.e("FirebaseLogin", "Login Error! ${response?.error?.errorCode}")
         }
+    }
+
+    private fun navigateToLibrary(){
+        findNavController().navigate(R.id.welcomeFragment_to_libraryFragment)
     }
 
     override fun onDestroyView() {
