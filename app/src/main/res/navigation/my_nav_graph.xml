@@ -10,6 +10,18 @@
         android:name="com.example.mediaplayer.ui.WelcomeFragment"
         android:label="Welcome"
         tools:layout="@layout/fragment_welcome">
+
+        <action
+            android:id="@+id/welcomeFragment_to_libraryFragment"
+            app:destination="@+id/libraryFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.mediaplayer.ui.LibraryFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_library">
     </fragment>
 
 

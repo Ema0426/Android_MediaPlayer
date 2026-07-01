@@ -1,6 +1,9 @@
 package com.example.mediaplayer.ui
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
     *   stiamo effettuando il biding tra questa classe e il file XML inerente alla Welcome,
     *   in modo da poter accedere in modo rapido agli elementi grafici.
     *
+    *   guardare le esercitazioni: navigation
     *   siti visionati :
     *   https://stackoverflow.com/questions/62952957/viewbinding-in-fragment
     *   https://www.geeksforgeeks.org/android/data-binding-in-android-activities-views-and-fragments/
@@ -28,7 +32,7 @@ import com.google.firebase.auth.FirebaseAuth
 */
 
 class WelcomeFragment : Fragment() {
-    private var _biding : FragmentWelcomeBinding? = null
+    private var _biding: FragmentWelcomeBinding? = null
     private val biding get() = _biding!!
 
     override fun onCreateView(
@@ -38,6 +42,30 @@ class WelcomeFragment : Fragment() {
     ): View {
         _biding = FragmentWelcomeBinding.inflate(inflater, container, false)
         return biding.root
+    }
+
+    /*
+        Laboratorio FireBase
+    */
+
+    private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract())
+    { res ->
+        this.onSignInResult(res)
+    }
+
+
+    private fun onSignInResult(res: FirebaseAuthUIAuthenticationResult?) {
+        val response = res?.idpResponse
+        if (res?.resultCode == RESULT_OK) {
+            val user = FirebaseAuth.getInstance().currentUser
+            val intent = Intent(requireContext(), LibraryFragment::class.java)
+            intent.putExtra("user_uid", user?.uid)
+
+            startActivity(intent)
+            activity?.finish()
+        } else {
+            Log.e("FirebaseLogin", "Login Error! ${response?.error?.errorCode}")
+        }
     }
 
     override fun onDestroyView() {
