@@ -10,19 +10,9 @@
         android:name="com.example.mediaplayer.ui.WelcomeFragment"
         android:label="Welcome"
         tools:layout="@layout/fragment_welcome">
-
-        <action
-            android:id="@+id/action_welcomeFragment_to_libraryFragment"
-            app:destination="@id/libraryFragment"
-            app:popUpTo="@id/welcomeFragment"
-            app:popUpToInclusive="true" />
     </fragment>
 
-    <fragment
-        android:id="@+id/libraryFragment"
-        android:name="com.example.mediaplayer.ui.LibraryFragment"
-        android:label="Libreria Musicale"
-        tools:layout="@layout/fragment_library" />
+
 
 </navigation>
 
