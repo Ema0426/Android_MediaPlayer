@@ -1,8 +1,19 @@
 package com.example.mediaplayer.model
 
-import com.google.firebase.firestore.DocumentId
+import com.google.gson.annotations.SerializedName
 data class Song (
-    @DocumentId val id: String = "",
-    val title: String = "",
-    val artist: String = ""
-)
+    @SerializedName("trackId")
+    val id : Long,
+
+    @SerializedName("trackName")
+    val title : String,
+
+    @SerializedName("artistName")
+    val artist : String,
+
+    @SerializedName("previewUrl")
+    val previewUrl : String?,
+
+    @SerializedName("artworkUrl100")
+    val coverUrl : String?
+    )
