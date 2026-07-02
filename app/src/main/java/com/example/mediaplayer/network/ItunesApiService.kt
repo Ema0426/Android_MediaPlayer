@@ -10,8 +10,7 @@ import retrofit2.http.Query
 *   stiamo dicharando un interfaccia che definisce
 *   come interagire con le API.
 *
-*   sotto creaimo un oggetto singleton
-*   TAP insegna ;)
+*   sotto creaimo un oggetto singleton [ TAP insegna ;) ]
 *
 *
 */
