@@ -12,6 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediaplayer.databinding.FragmentLibraryBinding
 import com.example.mediaplayer.ui.adapter.SongAdapter
 import com.example.mediaplayer.viewmodel.MusicViewModel
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 class LibraryFragment : Fragment() {
     private var _biding : FragmentLibraryBinding? = null
@@ -19,6 +24,8 @@ class LibraryFragment : Fragment() {
 
     private val viewModel : MusicViewModel by viewModels()
     private lateinit var adapter : SongAdapter
+
+    private var searchJob : Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,10 +41,36 @@ class LibraryFragment : Fragment() {
 
         setupRecyclerView()
         observerViewModel()
-        viewModel.searchMusic("Queen")
-
+        setupSearchInput()
     }
 
+    private fun setupSearchInput(){
+        biding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val finalQuery = query?.trim() ?: ""
+                searchJob?.cancel()
+
+                if(finalQuery.isNotBlank()){
+                    viewModel.searchMusic(finalQuery)
+                    biding.searchView.clearFocus()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val query = newText?.trim() ?: ""
+                searchJob?.cancel()
+
+                if (query.length > 2) {
+                    searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                        delay(500)
+                        viewModel.searchMusic(query)
+                    }
+                }
+                return true
+            }
+        })
+    }
     private fun setupRecyclerView(){
         adapter = SongAdapter(emptyList()){ selectedSong ->
             Toast.makeText(requireContext(), "In riproduzione : ${selectedSong.title}", Toast.LENGTH_SHORT).show()
