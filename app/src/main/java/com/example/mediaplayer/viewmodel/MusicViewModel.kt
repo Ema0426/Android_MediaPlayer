@@ -20,7 +20,14 @@ class MusicViewModel : ViewModel() {
     val songs : LiveData<List<Song>> get() =  _songs
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> get() = _isLoading
+    private val _currentSong = MutableLiveData<Song>()
 
+    val currentSong : LiveData<Song> get() = _currentSong
+
+
+    fun selectSong(song: Song){
+        _currentSong.value = song
+    }
     fun searchMusic(query : String){
         if(query.isBlank()) return
 

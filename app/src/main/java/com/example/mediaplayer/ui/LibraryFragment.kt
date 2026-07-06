@@ -13,6 +13,7 @@ import com.example.mediaplayer.databinding.FragmentLibraryBinding
 import com.example.mediaplayer.ui.adapter.SongAdapter
 import com.example.mediaplayer.viewmodel.MusicViewModel
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class LibraryFragment : Fragment() {
     private var _biding : FragmentLibraryBinding? = null
     private val biding get() = _biding!!
 
-    private val viewModel : MusicViewModel by viewModels()
+    private val viewModel : MusicViewModel by activityViewModels()
     private lateinit var adapter : SongAdapter
 
     private var searchJob : Job? = null
@@ -73,7 +74,7 @@ class LibraryFragment : Fragment() {
     }
     private fun setupRecyclerView(){
         adapter = SongAdapter(emptyList()){ selectedSong ->
-            Toast.makeText(requireContext(), "In riproduzione : ${selectedSong.title}", Toast.LENGTH_SHORT).show()
+            viewModel.selectSong(selectedSong)
         }
 
         biding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

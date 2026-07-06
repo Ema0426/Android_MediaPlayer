@@ -14,6 +14,7 @@
         <action
             android:id="@+id/welcomeFragment_to_libraryFragment"
             app:destination="@+id/libraryFragment"
+            app:popUpTo="@id/welcomeFragment"
             />
     </fragment>
 
@@ -22,6 +23,18 @@
         android:name="com.example.mediaplayer.ui.LibraryFragment"
         android:label="Library"
         tools:layout="@layout/fragment_library">
+
+        <action
+            android:id="@+id/libraryFragment_to_playerFragment"
+            app:destination="@+id/playerFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.example.mediaplayer.ui.PlayerFragment"
+        android:label="Player"
+        tools:layout="@layout/fragment_player">
     </fragment>
 
 

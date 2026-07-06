@@ -4,23 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.activityViewModels
+import coil.load
 import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.FragmentPlayerBinding
-import com.example.mediaplayer.databinding.FragmentWelcomeBinding
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import com.google.firebase.auth.FirebaseAuth
+import com.example.mediaplayer.viewmodel.MusicViewModel
+
 
 
 
 class PlayerFragment : Fragment() {
     private var _biding : FragmentPlayerBinding? = null
     private val biding get() = _biding!!
+
+    private val viewModel : MusicViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +28,26 @@ class PlayerFragment : Fragment() {
     ): View {
         _biding = FragmentPlayerBinding.inflate(inflater, container, false)
         return biding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observerViewModel()
+    }
+
+    private fun observerViewModel(){
+        viewModel.currentSong.observe(viewLifecycleOwner){ song ->
+            if(song == null) return@observe
+
+            biding.textViewTitle.text = song.title
+            biding.textViewArtist.text = song.artist
+            biding.imageViewCover.load(song.coverUrl){
+                crossfade(true)
+                placeholder(R.drawable.ic_launcher_background)
+                error(R.drawable.ic_launcher_foreground)
+            }
+
+        }
     }
 
     override fun onDestroyView() {
