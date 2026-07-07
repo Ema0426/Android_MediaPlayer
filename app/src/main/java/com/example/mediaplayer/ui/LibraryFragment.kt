@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediaplayer.databinding.FragmentLibraryBinding
 import com.example.mediaplayer.ui.adapter.SongAdapter
 import com.example.mediaplayer.viewmodel.MusicViewModel
 import androidx.appcompat.widget.SearchView
+import com.example.mediaplayer.R
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
@@ -75,6 +75,7 @@ class LibraryFragment : Fragment() {
     private fun setupRecyclerView(){
         adapter = SongAdapter(emptyList()){ selectedSong ->
             viewModel.selectSong(selectedSong)
+            findNavController().navigate(R.id.libraryFragment_to_playerFragment)
         }
 
         biding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
