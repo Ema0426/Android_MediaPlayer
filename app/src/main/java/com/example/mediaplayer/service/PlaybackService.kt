@@ -22,9 +22,10 @@ import androidx.media3.exoplayer.ExoPlayer
 *
 * per le notifiche guardare l'esercitazione
 *
-* dopo c'è stato bisogno di fare una bound service, caldamente consigliata da AI
+* dopo c'è stato bisogno di fare una bound service,
 * https://developer.android.com/develop/background-work/services/bound-services
-* qui c'è un po di documentazione
+* qui c'è un po di documentazione, c'è anche il laboratorio da visionare per capire il funzionamento
+*
 */
 
 class PlaybackService : Service() {
