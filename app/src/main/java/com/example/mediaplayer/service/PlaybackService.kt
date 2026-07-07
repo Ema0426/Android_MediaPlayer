@@ -6,9 +6,9 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.media3.common.MediaItem
@@ -21,15 +21,24 @@ import androidx.media3.exoplayer.ExoPlayer
 * un po di documentazione utile
 *
 * per le notifiche guardare l'esercitazione
+*
+* dopo c'è stato bisogno di fare una bound service, caldamente consigliata da AI
+* https://developer.android.com/develop/background-work/services/bound-services
+* qui c'è un po di documentazione
 */
 
 class PlaybackService : Service() {
     private var player: ExoPlayer? = null
 
+    private val binder = LocalBinder()
     companion object {
         const val EXTRA_AUDIO_URL = "extra_audio_url"
         private const val NOTIFICATION_ID = 1
         private const val CHANNEL_ID = "media_playback_channel"
+    }
+
+    inner class LocalBinder : Binder(){
+        fun getService() : PlaybackService = this@PlaybackService
     }
 
     override fun onCreate() {
@@ -50,6 +59,8 @@ class PlaybackService : Service() {
         }
         return START_NOT_STICKY
     }
+
+    fun getExoPlayer() : ExoPlayer? = player
 
     private fun startForegroundService(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -92,6 +103,6 @@ class PlaybackService : Service() {
     }
 
     override fun onBind(p0: Intent?): IBinder? {
-        return null
+        return binder
     }
 }
