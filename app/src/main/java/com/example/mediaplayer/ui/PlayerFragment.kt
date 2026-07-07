@@ -1,14 +1,17 @@
 package com.example.mediaplayer.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
 import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.FragmentPlayerBinding
+import com.example.mediaplayer.service.PlaybackService
 import com.example.mediaplayer.viewmodel.MusicViewModel
 
 
@@ -46,7 +49,10 @@ class PlayerFragment : Fragment() {
                 placeholder(R.drawable.ic_launcher_background)
                 error(R.drawable.ic_launcher_foreground)
             }
-
+            val intent = Intent(requireContext(), PlaybackService::class.java).apply {
+                putExtra(PlaybackService.EXTRA_AUDIO_URL, song.previewUrl)
+            }
+            ContextCompat.startForegroundService(requireContext(), intent)
         }
     }
 
