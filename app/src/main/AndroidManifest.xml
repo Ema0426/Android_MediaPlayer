@@ -19,7 +19,7 @@
         android:theme="@style/Theme.MediaPlayer">
         <!-- DA METTERE NOME DELLA CLASSE IN TUTTE E DUE -->
         <service
-            android:name=".NOMEPLAYBACKSERVICE"
+            android:name=".service.PlaybackService"
             android:foregroundServiceType="mediaPlayback"
             android:exported="false" />
 
