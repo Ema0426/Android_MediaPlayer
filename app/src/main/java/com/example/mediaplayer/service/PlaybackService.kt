@@ -1,8 +1,16 @@
 package com.example.mediaplayer.service
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.os.IBinder
+import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 
@@ -12,6 +20,7 @@ import androidx.media3.exoplayer.ExoPlayer
 * https://developer.android.com/media/media3/exoplayer
 * un po di documentazione utile
 *
+* per le notifiche guardare l'esercitazione
 */
 
 class PlaybackService : Service() {
@@ -19,6 +28,8 @@ class PlaybackService : Service() {
 
     companion object {
         const val EXTRA_AUDIO_URL = "extra_audio_url"
+        private const val NOTIFICATION_ID = 1
+        private const val CHANNEL_ID = "media_playback_channel"
     }
 
     override fun onCreate() {
@@ -29,6 +40,8 @@ class PlaybackService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val audioUrl = intent?.getStringExtra(EXTRA_AUDIO_URL)
 
+        startForegroundService()
+
         if(audioUrl != null){
             val mediaItem = MediaItem.fromUri(audioUrl)
             player?.setMediaItem(mediaItem)
@@ -36,6 +49,40 @@ class PlaybackService : Service() {
             player?.play()
         }
         return START_NOT_STICKY
+    }
+
+    private fun startForegroundService(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Media Playback",
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = "Canale dedicato ai controlli di riproduzione audio"
+            }
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notifcation = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("Riproduzione in corso")
+            .setContentText("Il tuo brano è in esecuzione")
+            .setSmallIcon(android.R.drawable.ic_media_play)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setOngoing(true)
+            .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ServiceCompat.startForeground(
+                this,
+                NOTIFICATION_ID,
+                notifcation,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            )
+        } else {
+            startForeground(NOTIFICATION_ID, notifcation)
+        }
     }
 
     override fun onDestroy() {
