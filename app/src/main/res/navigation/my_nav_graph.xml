@@ -37,6 +37,18 @@
         tools:layout="@layout/fragment_player">
     </fragment>
 
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.mediaplayer.ui.FavoritesFragment"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/fragment_favorites">
+
+        <action
+            android:id="@+id/action_favoritesFragment_to_playerFragment"
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
 
 
 </navigation>
