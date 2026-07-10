@@ -27,6 +27,10 @@ class MusicViewModel : ViewModel() {
 
     val currentSong : LiveData<Song> get() = _currentSong
 
+    private val _isFavorite = MutableLiveData<Boolean>()
+
+    val isFavorite : LiveData<Boolean> get() = _isFavorite
+
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
@@ -49,6 +53,23 @@ class MusicViewModel : ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    fun checkIfFavorite(songId : Long){
+        val uid = auth.currentUser?.uid ?: return
+
+        db.collection("Users")
+            .document(uid)
+            .collection("Favorites")
+            .document(songId.toString())
+            .get()
+            .addOnSuccessListener { document ->
+                _isFavorite.value = document.exists()
+            }
+            .addOnFailureListener { e ->
+                Log.e("MusicViewModel", "Errore durante la verifica dei preferiti", e)
+                _isFavorite.value = false
+            }
     }
 
     fun addToFavorites(song : Song){

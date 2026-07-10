@@ -96,6 +96,9 @@ class PlayerFragment : Fragment() {
                 placeholder(R.drawable.ic_launcher_background)
                 error(R.drawable.ic_launcher_foreground)
             }
+
+            viewModel.checkIfFavorite(song.id)
+
             val intent = Intent(requireContext(), PlaybackService::class.java).apply {
                 putExtra(PlaybackService.EXTRA_AUDIO_URL, song.previewUrl)
             }
@@ -103,6 +106,16 @@ class PlayerFragment : Fragment() {
             if(!isBound) {
                 requireContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
             }
+
+        }
+
+        viewModel.isFavorite.observe(viewLifecycleOwner){ isFav ->
+            val iconResurce = if(isFav){
+                R.drawable.ic_heart_filledd
+            }else{
+                R.drawable.ic_heart_empty
+            }
+            biding.imageViewFavorite.setImageResource(iconResurce)
 
         }
     }
@@ -127,6 +140,17 @@ class PlayerFragment : Fragment() {
                 seekBar?.let{exoPlayer?.seekTo(it.progress.toLong())}
             }
         })
+
+        biding.imageViewFavorite.setOnClickListener {
+            val song = viewModel.currentSong.value ?: return@setOnClickListener
+            val isCurrentlyFavorite = viewModel.isFavorite.value ?: false
+
+            if(isCurrentlyFavorite){
+                viewModel.removeToFavorites(song)
+            }else{
+                viewModel.addToFavorites(song)
+            }
+        }
     }
 
     private fun startProgressLoop(){
