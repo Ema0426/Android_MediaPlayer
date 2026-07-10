@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mediaplayer.model.Song
 import com.example.mediaplayer.network.RetrofitClient
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 /*
@@ -24,6 +27,8 @@ class MusicViewModel : ViewModel() {
 
     val currentSong : LiveData<Song> get() = _currentSong
 
+    private val auth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
 
     fun selectSong(song: Song){
         _currentSong.value = song
@@ -44,5 +49,37 @@ class MusicViewModel : ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    fun addToFavorites(song : Song){
+        val uid = auth.currentUser?.uid ?: return
+
+        db.collection("Users")
+            .document(uid)
+            .collection("Favorites")
+            .document(song.id.toString())
+            .set(song)
+            .addOnSuccessListener {
+                Log.d("MusicViewModel", "Traccia ${song.title} aggiunta hai preferiti")
+            }
+            .addOnFailureListener {
+                Log.d("MusicViewModel", "Errore durante il salvataggio nei preferiti")
+            }
+    }
+
+    fun removeToFavorites(song : Song){
+        val uid = auth.currentUser?.uid ?: return
+
+        db.collection("Users")
+            .document(uid)
+            .collection("Favorites")
+            .document(song.id.toString())
+            .delete()
+            .addOnSuccessListener {
+                Log.d("MusicViewModel", "Traccia ${song.title} rimossa dai preferiti")
+            }
+            .addOnFailureListener {
+                Log.d("MusicViewModel", "Errore durante la rimozione dai preferiti")
+            }
     }
 }
