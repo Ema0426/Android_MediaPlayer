@@ -77,6 +77,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@android:drawable/ic_media_play" />
 
+        <ImageView
+            android:id="@+id/imageViewFavorite"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:padding="8dp"
+            android:contentDescription="Salva nei preferiti"
+            app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fabPlayPause"
+            app:srcCompat="@drawable/ic_heart_empty" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
