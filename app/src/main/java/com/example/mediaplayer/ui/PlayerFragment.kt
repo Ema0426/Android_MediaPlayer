@@ -27,8 +27,8 @@ import kotlinx.coroutines.launch
 
 
 class PlayerFragment : Fragment() {
-    private var _biding : FragmentPlayerBinding? = null
-    private val biding get() = _biding!!
+    private var _binding : FragmentPlayerBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel : MusicViewModel by activityViewModels()
 
@@ -44,7 +44,7 @@ class PlayerFragment : Fragment() {
         override fun onPlaybackStateChanged(playbackState: Int) {
             if(playbackState == Player.STATE_READY){
                 exoPlayer?.let{ player ->
-                    biding.seekBar.max = player.duration.toInt()
+                    binding.seekBar.max = player.duration.toInt()
                 }
             }
         }
@@ -76,8 +76,8 @@ class PlayerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _biding = FragmentPlayerBinding.inflate(inflater, container, false)
-        return biding.root
+        _binding = FragmentPlayerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,9 +89,9 @@ class PlayerFragment : Fragment() {
         viewModel.currentSong.observe(viewLifecycleOwner){ song ->
             if(song == null) return@observe
 
-            biding.textViewTitle.text = song.title
-            biding.textViewArtist.text = song.artist
-            biding.imageViewCover.load(song.coverUrl){
+            binding.textViewTitle.text = song.title
+            binding.textViewArtist.text = song.artist
+            binding.imageViewCover.load(song.coverUrl){
                 crossfade(true)
                 placeholder(R.drawable.ic_launcher_background)
                 error(R.drawable.ic_launcher_foreground)
@@ -115,13 +115,13 @@ class PlayerFragment : Fragment() {
             }else{
                 R.drawable.ic_heart_empty
             }
-            biding.imageViewFavorite.setImageResource(iconResurce)
+            binding.imageViewFavorite.setImageResource(iconResurce)
 
         }
     }
 
     private fun setupUIControls(){
-        biding.fabPlayPause.setOnClickListener {
+        binding.fabPlayPause.setOnClickListener {
             exoPlayer?.let{ player ->
                 if(player.isPlaying){
                     player.pause()
@@ -131,7 +131,7 @@ class PlayerFragment : Fragment() {
             }
         }
 
-        biding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -141,7 +141,7 @@ class PlayerFragment : Fragment() {
             }
         })
 
-        biding.imageViewFavorite.setOnClickListener {
+        binding.imageViewFavorite.setOnClickListener {
             val song = viewModel.currentSong.value ?: return@setOnClickListener
             val isCurrentlyFavorite = viewModel.isFavorite.value ?: false
 
@@ -158,7 +158,7 @@ class PlayerFragment : Fragment() {
             while(isActive){
                 exoPlayer?.let{ player ->
                     if(player.isPlaying){
-                        biding.seekBar.progress = player.currentPosition.toInt()
+                        binding.seekBar.progress = player.currentPosition.toInt()
                     }
                 }
                 delay(250)
@@ -172,7 +172,7 @@ class PlayerFragment : Fragment() {
         }else{
             android.R.drawable.ic_media_play
         }
-        biding.fabPlayPause.setImageResource(iconRes)
+        binding.fabPlayPause.setImageResource(iconRes)
     }
 
     override fun onDestroyView() {
@@ -182,6 +182,6 @@ class PlayerFragment : Fragment() {
             requireContext().unbindService(serviceConnection)
             isBound = false
         }
-        _biding = null
+        _binding = null
     }
 }

@@ -19,26 +19,26 @@ class SongAdapter (
     private val onSongClick: (Song) -> Unit
 ) : RecyclerView.Adapter<SongAdapter.SongViewHolder>(){
 
-    inner class SongViewHolder(private val biding : ItemSongBinding) : RecyclerView.ViewHolder(biding.root){
+    inner class SongViewHolder(private val binding : ItemSongBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind (song : Song){
-            biding.textViewArtist.text = song.artist
-            biding.textViewTitle.text = song.title
+            binding.textViewArtist.text = song.artist
+            binding.textViewTitle.text = song.title
 
-            biding.imageViewCover.load(song.coverUrl){
+            binding.imageViewCover.load(song.coverUrl){
                 crossfade(true)
                 placeholder(R.drawable.ic_launcher_background)
                 error(R.drawable.ic_launcher_foreground)
             }
 
-            biding.root.setOnClickListener {
+            binding.root.setOnClickListener {
                 onSongClick(song)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
-        val biding = ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SongViewHolder(biding)
+        val binding = ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SongViewHolder(binding)
     }
 
     override fun getItemCount(): Int = songList.size

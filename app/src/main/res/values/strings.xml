@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MediaPlayer</string>
+    <string name="preferiti">Preferiti</string>
+    <string name="libreria">Libreria</string>
 </resources>

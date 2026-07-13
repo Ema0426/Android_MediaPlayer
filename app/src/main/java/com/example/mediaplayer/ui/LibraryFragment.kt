@@ -20,8 +20,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 class LibraryFragment : Fragment() {
-    private var _biding : FragmentLibraryBinding? = null
-    private val biding get() = _biding!!
+    private var _binding : FragmentLibraryBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel : MusicViewModel by activityViewModels()
     private lateinit var adapter : SongAdapter
@@ -33,8 +33,8 @@ class LibraryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _biding = FragmentLibraryBinding.inflate(inflater, container, false)
-        return biding.root
+        _binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,14 +46,14 @@ class LibraryFragment : Fragment() {
     }
 
     private fun setupSearchInput(){
-        biding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val finalQuery = query?.trim() ?: ""
                 searchJob?.cancel()
 
                 if(finalQuery.isNotBlank()){
                     viewModel.searchMusic(finalQuery)
-                    biding.searchView.clearFocus()
+                    binding.searchView.clearFocus()
                 }
                 return true
             }
@@ -78,8 +78,8 @@ class LibraryFragment : Fragment() {
             findNavController().navigate(R.id.libraryFragment_to_playerFragment)
         }
 
-        biding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        biding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
     }
 
     private fun observerViewModel(){
@@ -89,17 +89,17 @@ class LibraryFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
             if(isLoading){
-                biding.progressBar.visibility = View.VISIBLE
-                biding.recyclerView.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
             }else{
-                biding.progressBar.visibility = View.GONE
-                biding.recyclerView.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
             }
         }
     }
 
     override fun onDestroyView() {
-        _biding = null
+        _binding = null
         super.onDestroyView()
     }
 }

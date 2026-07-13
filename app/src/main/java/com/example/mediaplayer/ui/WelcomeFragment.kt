@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 /*
     *   piccola spiegazione di cosa si sta facendo qui :
-    *   stiamo effettuando il biding tra questa classe e il file XML inerente alla Welcome,
+    *   stiamo effettuando il binding tra questa classe e il file XML inerente alla Welcome,
     *   in modo da poter accedere in modo rapido agli elementi grafici.
     *
     *   guardare le esercitazioni: navigation
@@ -29,16 +29,16 @@ import com.google.firebase.auth.FirebaseAuth
 */
 
 class WelcomeFragment : Fragment() {
-    private var _biding: FragmentWelcomeBinding? = null
-    private val biding get() = _biding!!
+    private var _binding: FragmentWelcomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _biding = FragmentWelcomeBinding.inflate(inflater, container, false)
-        return biding.root
+        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +48,7 @@ class WelcomeFragment : Fragment() {
         if(user != null){
             navigateToLibrary()
         }else{
-            biding.btnLogin.setOnClickListener {
+            binding.btnLogin.setOnClickListener {
                 startSignInFlow()
             }
         }
@@ -91,7 +91,7 @@ class WelcomeFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _biding = null
+        _binding = null
         super.onDestroyView()
     }
 }
