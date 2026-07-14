@@ -91,7 +91,8 @@ class PlayerFragment : Fragment() {
 
             binding.textViewTitle.text = song.title
             binding.textViewArtist.text = song.artist
-            binding.imageViewCover.load(song.coverUrl){
+            val highResUrl = song.coverUrl?.replace("100x100bb.jpg", "600x600bb.jpg")
+            binding.imageViewCover.load(highResUrl){
                 crossfade(true)
                 placeholder(R.drawable.ic_launcher_background)
                 error(R.drawable.ic_launcher_foreground)
