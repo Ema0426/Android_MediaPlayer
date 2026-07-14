@@ -12,7 +12,6 @@ import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.FragmentFavoritesBinding
 import com.example.mediaplayer.ui.adapter.SongAdapter
 import com.example.mediaplayer.viewmodel.MusicViewModel
-import kotlinx.coroutines.Job
 import kotlin.getValue
 
 class FavoritesFragment : Fragment() {
@@ -23,7 +22,6 @@ class FavoritesFragment : Fragment() {
     private val viewModel : MusicViewModel by activityViewModels()
     private lateinit var adapter : SongAdapter
     private var currentQuery: String = ""
-    private var searchJob : Job? = null
 
 
 

@@ -47,6 +47,9 @@ class PlayerFragment : Fragment() {
                     binding.seekBar.max = player.duration.toInt()
                 }
             }
+            else if (playbackState == Player.STATE_ENDED) {
+                viewModel.nextSong()
+            }
         }
     }
 
@@ -140,6 +143,15 @@ class PlayerFragment : Fragment() {
                     player.play()
                 }
             }
+        }
+
+
+        binding.btnNext.setOnClickListener {
+            viewModel.nextSong()
+        }
+
+        binding.btnPrevious.setOnClickListener {
+            viewModel.previousSong()
         }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{

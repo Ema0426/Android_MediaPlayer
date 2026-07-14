@@ -77,6 +77,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@android:drawable/ic_media_play" />
 
+        <ImageButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Precedente"
+            app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
+            app:layout_constraintEnd_toStartOf="@+id/fabPlayPause"
+            app:layout_constraintTop_toTopOf="@+id/fabPlayPause"
+            app:srcCompat="@android:drawable/ic_media_previous" />
+
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Successiva"
+            app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
+            app:layout_constraintStart_toEndOf="@+id/fabPlayPause"
+            app:layout_constraintTop_toTopOf="@+id/fabPlayPause"
+            app:srcCompat="@android:drawable/ic_media_next" />
+
+
+
         <ImageView
             android:id="@+id/imageViewFavorite"
             android:layout_width="48dp"

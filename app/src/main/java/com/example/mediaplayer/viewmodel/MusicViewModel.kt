@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mediaplayer.model.Song
 import com.example.mediaplayer.network.RetrofitClient
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -94,24 +93,14 @@ class MusicViewModel : ViewModel() {
     }
 
     fun checkIfFavorite(songId : Long){
-        val uid = auth.currentUser?.uid ?: return
-
-        db.collection("Users")
-            .document(uid)
-            .collection("Favorites")
-            .document(songId.toString())
-            .get()
-            .addOnSuccessListener { document ->
-                _isFavorite.value = document.exists()
-            }
-            .addOnFailureListener { e ->
-                Log.e("MusicViewModel", "Errore durante la verifica dei preferiti", e)
-                _isFavorite.value = false
-            }
+        val currentFavorites = _favoriteSongs.value ?: emptyList()
+        _isFavorite.value = currentFavorites.any { it.id == songId }
     }
 
     fun addToFavorites(song : Song){
         val uid = auth.currentUser?.uid ?: return
+
+        _isFavorite.value = true
 
         db.collection("Users")
             .document(uid)
@@ -128,6 +117,8 @@ class MusicViewModel : ViewModel() {
 
     fun removeToFavorites(song : Song){
         val uid = auth.currentUser?.uid ?: return
+
+        _isFavorite.value = false
 
         db.collection("Users")
             .document(uid)
