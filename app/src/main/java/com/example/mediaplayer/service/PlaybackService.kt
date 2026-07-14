@@ -53,10 +53,14 @@ class PlaybackService : Service() {
         startForegroundService()
 
         if(audioUrl != null){
-            val mediaItem = MediaItem.fromUri(audioUrl)
-            player?.setMediaItem(mediaItem)
-            player?.prepare()
-            player?.play()
+            val currentPlayingUrl = player?.currentMediaItem?.localConfiguration?.uri?.toString()
+
+            if (audioUrl != currentPlayingUrl) {
+                val mediaItem = MediaItem.fromUri(audioUrl)
+                player?.setMediaItem(mediaItem)
+                player?.prepare()
+                player?.play()
+            }
         }
         return START_NOT_STICKY
     }

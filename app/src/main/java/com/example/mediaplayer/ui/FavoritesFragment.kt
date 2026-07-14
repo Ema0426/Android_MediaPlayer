@@ -4,37 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediaplayer.R
-import com.example.mediaplayer.databinding.FragmentLibraryBinding
+import com.example.mediaplayer.databinding.FragmentFavoritesBinding
 import com.example.mediaplayer.ui.adapter.SongAdapter
 import com.example.mediaplayer.viewmodel.MusicViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class FavoritesFragment : Fragment() {
 
-    private var _binding : FragmentLibraryBinding? = null
+    private var _binding : FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel : MusicViewModel by activityViewModels()
     private lateinit var adapter : SongAdapter
-
+    private var currentQuery: String = ""
     private var searchJob : Job? = null
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,40 +42,54 @@ class FavoritesFragment : Fragment() {
 
         setupRecyclerView()
         observerViewModel()
-        setupSearchInput()
+        setupSearchView()
     }
 
-    private fun setupSearchInput(){
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                val finalQuery = query?.trim() ?: ""
-                searchJob?.cancel()
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(/* listener = */ object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
-                if(finalQuery.isNotBlank()){
-                    viewModel.searchMusic(finalQuery)
-                    binding.searchView.clearFocus()
-                }
-                return true
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                val query = newText?.trim() ?: ""
-                searchJob?.cancel()
-
-                if (query.length > 2) {
-                    searchJob = viewLifecycleOwner.lifecycleScope.launch {
-                        delay(500)
-                        viewModel.searchMusic(query)
-                    }
-                }
+                currentQuery = newText ?: ""
+                filterFavorites()
                 return true
             }
         })
     }
+
+    private fun filterFavorites() {
+        val allFavorites = viewModel.favoriteSongs.value ?: emptyList()
+
+        if (currentQuery.isEmpty()) {
+            adapter.updateSongs(allFavorites)
+        } else {
+            val filteredList = allFavorites.filter { song ->
+                song.title.contains(currentQuery, ignoreCase = true) ||
+                        song.artist.contains(currentQuery, ignoreCase = true)
+            }
+            adapter.updateSongs(filteredList)
+        }
+    }
+
     private fun setupRecyclerView(){
-        adapter = SongAdapter(emptyList()){ selectedSong ->
-            viewModel.selectSong(selectedSong)
-            findNavController().navigate(R.id.libraryFragment_to_playerFragment)
+        adapter = SongAdapter(emptyList()) { selectedSong ->
+            val allFavorites = viewModel.favoriteSongs.value ?: emptyList()
+            val listToPlay = if (currentQuery.isEmpty()) {
+                allFavorites
+            } else {
+                allFavorites.filter {
+                    it.title.contains(currentQuery, ignoreCase = true) ||
+                            it.artist.contains(currentQuery, ignoreCase = true)
+                }
+            }
+
+            val index = listToPlay.indexOf(selectedSong)
+            viewModel.playQueue(listToPlay, if(index != -1) index else 0)
+
+            findNavController().navigate(R.id.action_favoritesFragment_to_playerFragment)
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -84,18 +97,8 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun observerViewModel(){
-        viewModel.songs.observe(viewLifecycleOwner){ songsList ->
-            adapter.updateSongs(songsList)
-        }
-
-        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            if(isLoading){
-                binding.progressBar.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            }else{
-                binding.progressBar.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-            }
+        viewModel.favoriteSongs.observe(viewLifecycleOwner) {
+            filterFavorites()
         }
     }
 

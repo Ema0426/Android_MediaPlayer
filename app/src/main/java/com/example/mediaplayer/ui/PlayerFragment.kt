@@ -58,7 +58,17 @@ class PlayerFragment : Fragment() {
             isBound = true
 
             exoPlayer?.addListener(playerListener)
-            exoPlayer?.let { updatePlayPauseButtonIcon(it.isPlaying) }
+
+            // se il player sta già suonando bisogna settare il player correttamente
+            exoPlayer?.let { player ->
+                updatePlayPauseButtonIcon(player.isPlaying)
+                if (player.playbackState == Player.STATE_READY) {
+                    binding.seekBar.max = player.duration.toInt()
+                    binding.seekBar.progress = player.currentPosition.toInt()
+                }
+            }
+
+
             startProgressLoop()
             setupUIControls()
         }

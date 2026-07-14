@@ -74,14 +74,15 @@ class LibraryFragment : Fragment() {
     }
     private fun setupRecyclerView(){
         adapter = SongAdapter(emptyList()){ selectedSong ->
-            viewModel.selectSong(selectedSong)
+            val currentList = viewModel.songs.value ?: emptyList()
+            val index = currentList.indexOf(selectedSong)
+            viewModel.playQueue(currentList, if(index != -1) index else 0)
             findNavController().navigate(R.id.libraryFragment_to_playerFragment)
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
     }
-
     private fun observerViewModel(){
         viewModel.songs.observe(viewLifecycleOwner){ songsList ->
             adapter.updateSongs(songsList)

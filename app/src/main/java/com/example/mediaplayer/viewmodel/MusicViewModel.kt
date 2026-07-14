@@ -33,10 +33,48 @@ class MusicViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
+    private val _favoriteSongs = MutableLiveData<List<Song>>()
+    val favoriteSongs: LiveData<List<Song>> get() = _favoriteSongs
 
-    fun selectSong(song: Song){
-        _currentSong.value = song
+
+    private var currentQueue: List<Song> = emptyList()
+    private var currentIndex: Int = 0
+
+
+    init {
+        listenToFavorites()
     }
+
+
+    fun playQueue(queue: List<Song>, startIndex: Int) {
+        if (queue.isEmpty() || startIndex < 0 || startIndex >= queue.size) return
+        currentQueue = queue
+        currentIndex = startIndex
+        _currentSong.value = currentQueue[currentIndex]
+    }
+
+    fun nextSong() {
+        if (currentQueue.isEmpty()) return
+
+        currentIndex = if (currentIndex < currentQueue.size - 1) {
+            currentIndex + 1
+        } else {
+            0
+        }
+        _currentSong.value = currentQueue[currentIndex]
+    }
+
+    fun previousSong() {
+        if (currentQueue.isEmpty()) return
+
+        currentIndex = if (currentIndex > 0) {
+            currentIndex - 1
+        } else {
+            currentQueue.size - 1
+        }
+        _currentSong.value = currentQueue[currentIndex]
+    }
+
     fun searchMusic(query : String){
         if(query.isBlank()) return
 
@@ -103,4 +141,23 @@ class MusicViewModel : ViewModel() {
                 Log.d("MusicViewModel", "Errore durante la rimozione dai preferiti")
             }
     }
+
+    private fun listenToFavorites() {
+        val uid = auth.currentUser?.uid ?: return
+
+        db.collection("Users")
+            .document(uid)
+            .collection("Favorites")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.d("MusicViewModel", "Errore ascolto preferiti", error)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    val songs = snapshot.documents.mapNotNull { it.toObject(Song::class.java) }
+                    _favoriteSongs.value = songs
+                }
+            }
+    }
+
 }
