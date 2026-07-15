@@ -15,6 +15,7 @@ import com.example.mediaplayer.viewmodel.MusicViewModel
 import kotlin.getValue
 import com.example.mediaplayer.service.PlaybackService
 import android.content.Intent
+import com.example.mediaplayer.setupLogoutMenu
 import com.example.mediaplayer.showLogoutDialog
 import kotlin.jvm.java
 
@@ -46,8 +47,7 @@ class FavoritesFragment : Fragment() {
         setupRecyclerView()
         observerViewModel()
         setupSearchView()
-        binding.btnLogout.setOnClickListener { showLogoutDialog(viewModel) }
-
+        setupLogoutMenu(viewModel)
     }
 
     private fun setupSearchView() {

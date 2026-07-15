@@ -2,5 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="toolbar_color">@color/material_dynamic_primary70</color>
+    <color name="toolbar_color">#A47AFF</color>
+
 </resources>

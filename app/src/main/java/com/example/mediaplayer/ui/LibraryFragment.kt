@@ -16,12 +16,11 @@ import com.example.mediaplayer.R
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.mediaplayer.service.PlaybackService
+import com.example.mediaplayer.setupLogoutMenu
 import com.example.mediaplayer.showLogoutDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
-import kotlin.jvm.java
 
 class LibraryFragment : Fragment() {
     private var _binding : FragmentLibraryBinding? = null
@@ -50,8 +49,7 @@ class LibraryFragment : Fragment() {
         setupRecyclerView()
         observerViewModel()
         setupSearchInput()
-        binding.btnLogout.setOnClickListener { showLogoutDialog(viewModel) }
-
+        setupLogoutMenu(viewModel)
 
     }
 

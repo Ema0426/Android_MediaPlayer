@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNav.setupWithNavController(navController)
-
+        setSupportActionBar(binding.topToolbar)
         binding.topToolbar.setupWithNavController(navController)
 
         //tolgo la bottomnavigation quando sono nel player o nel welcome
