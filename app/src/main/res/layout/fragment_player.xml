@@ -8,135 +8,142 @@
             name="viewModel"
             type="com.example.mediaplayer.viewmodel.MusicViewModel" />
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        tools:context=".ui.PlayerFragment">
-
-        <ImageView
-            android:id="@+id/imageViewCover"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="32dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="0dp"
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.currentSong.title}"
-            android:layout_marginTop="24dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageViewCover"
-            tools:text="Titolo della Canzone" />
+            android:padding="16dp"
+            tools:context=".ui.PlayerFragment">
 
-        <TextView
-            android:id="@+id/textViewArtist"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.currentSong.artist}"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewTitle"
-            tools:text="Nome Artista" />
+            <ImageView
+                android:id="@+id/imageViewCover"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="32dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/textViewCurrentTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/seekBar"
-            app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.currentSong.title}"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewCover"
+                tools:text="Titolo della Canzone" />
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            app:layout_constraintBottom_toTopOf="@id/fabPlayPause"
-            app:layout_constraintEnd_toStartOf="@+id/textViewTotalTime"
-            app:layout_constraintStart_toEndOf="@+id/textViewCurrentTime" />
+            <TextView
+                android:id="@+id/textViewArtist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@{viewModel.currentSong.artist}"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+                app:layout_constraintVertical_bias="0.074"
+                tools:text="Nome Artista" />
 
-        <TextView
-            android:id="@+id/textViewTotalTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/seekBar"
-            app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
+            <TextView
+                android:id="@+id/textViewCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/seekBar"
+                app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabPlayPause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:contentDescription="Play/Pausa"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintBottom_toTopOf="@id/fabPlayPause"
+                app:layout_constraintEnd_toStartOf="@+id/textViewTotalTime"
+                app:layout_constraintStart_toEndOf="@+id/textViewCurrentTime" />
 
-        <ImageButton
-            android:id="@+id/btnPrevious"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginEnd="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Precedente"
-            app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
-            app:layout_constraintEnd_toStartOf="@+id/fabPlayPause"
-            app:layout_constraintTop_toTopOf="@+id/fabPlayPause"
-            app:srcCompat="@android:drawable/ic_media_previous" />
+            <TextView
+                android:id="@+id/textViewTotalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/seekBar"
+                app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
 
-        <ImageButton
-            android:id="@+id/btnNext"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Successiva"
-            app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
-            app:layout_constraintStart_toEndOf="@+id/fabPlayPause"
-            app:layout_constraintTop_toTopOf="@+id/fabPlayPause"
-            app:srcCompat="@android:drawable/ic_media_next" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabPlayPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:contentDescription="Play/Pausa"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@android:drawable/ic_media_play" />
 
-        <ImageView
-            android:id="@+id/imageViewFavorite"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="16dp"
-            android:src="@{viewModel.isFavorite ? @drawable/ic_heart_filledd : @drawable/ic_heart_empty}"
-            android:padding="8dp"
-            android:contentDescription="Salva nei preferiti"
-            app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fabPlayPause" />
+            <ImageButton
+                android:id="@+id/btnPrevious"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Precedente"
+                app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
+                app:layout_constraintEnd_toStartOf="@+id/fabPlayPause"
+                app:layout_constraintTop_toTopOf="@+id/fabPlayPause"
+                app:srcCompat="@android:drawable/ic_media_previous" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Successiva"
+                app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
+                app:layout_constraintStart_toEndOf="@+id/fabPlayPause"
+                app:layout_constraintTop_toTopOf="@+id/fabPlayPause"
+                app:srcCompat="@android:drawable/ic_media_next" />
+
+            <ImageView
+                android:id="@+id/imageViewFavorite"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
+                android:src="@{viewModel.isFavorite ? @drawable/ic_heart_filledd : @drawable/ic_heart_empty}"
+                android:padding="8dp"
+                android:contentDescription="Salva nei preferiti"
+                app:layout_constraintBottom_toBottomOf="@+id/fabPlayPause"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/fabPlayPause" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -17,6 +17,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.example.mediaplayer.databinding.FragmentPlayerBinding
 import com.example.mediaplayer.formatAsTime
 import com.example.mediaplayer.loadCover
+import com.example.mediaplayer.service.PlaybackCallback
 import com.example.mediaplayer.service.PlaybackService
 import com.example.mediaplayer.viewmodel.MusicViewModel
 import kotlinx.coroutines.delay
@@ -46,9 +47,6 @@ class PlayerFragment : Fragment() {
                     binding.textViewTotalTime.text = player.duration.formatAsTime()
                 }
             }
-            else if (playbackState == Player.STATE_ENDED) {
-                viewModel.nextSong()
-            }
         }
     }
 
@@ -56,6 +54,13 @@ class PlayerFragment : Fragment() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             var binder = service as PlaybackService.LocalBinder
             playBackService = binder.getService()
+            playBackService?.callback = object : PlaybackCallback {
+                override fun onNextSong() {
+                    viewModel.nextSong()
+                }
+            }
+
+
             exoPlayer = playBackService?.getExoPlayer()
             isBound = true
 

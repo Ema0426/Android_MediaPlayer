@@ -12,6 +12,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 
 
@@ -29,9 +30,15 @@ import androidx.media3.exoplayer.ExoPlayer
 *
 */
 
+
+interface PlaybackCallback {
+    fun onNextSong()
+}
+
+
 class PlaybackService : Service() {
     private var player: ExoPlayer? = null
-
+    var callback: PlaybackCallback? = null
     private val binder = LocalBinder()
     companion object {
         const val EXTRA_AUDIO_URL = "extra_audio_url"
@@ -43,9 +50,17 @@ class PlaybackService : Service() {
         fun getService() : PlaybackService = this@PlaybackService
     }
 
+
     override fun onCreate() {
         super.onCreate()
         player = ExoPlayer.Builder(this).build()
+        player?.addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_ENDED) {
+                    callback?.onNextSong()
+                }
+            }
+        })
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
