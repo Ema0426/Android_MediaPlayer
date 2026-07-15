@@ -13,6 +13,10 @@ import com.example.mediaplayer.databinding.FragmentFavoritesBinding
 import com.example.mediaplayer.ui.adapter.SongAdapter
 import com.example.mediaplayer.viewmodel.MusicViewModel
 import kotlin.getValue
+import com.example.mediaplayer.service.PlaybackService
+import android.content.Intent
+import kotlin.jvm.java
+
 
 class FavoritesFragment : Fragment() {
 
@@ -104,6 +108,9 @@ class FavoritesFragment : Fragment() {
                 .setPositiveButton("Esci") { dialog, which ->
 
                     viewModel.clearUserData()
+
+                    val stopIntent = Intent(requireContext(), PlaybackService::class.java)
+                    requireContext().stopService(stopIntent)
 
                     com.firebase.ui.auth.AuthUI.getInstance()
                         .signOut(requireContext())

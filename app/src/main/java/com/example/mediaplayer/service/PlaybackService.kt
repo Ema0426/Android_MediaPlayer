@@ -14,6 +14,7 @@ import androidx.core.app.ServiceCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 
+
 /*
 * creiamo l'istanza di exoplayer, che sarebbe il nostro oggetto per i flussi audio
 * https://dev.to/theplebdev/lets-talk-about-services-in-android-with-kotlin-1fij
@@ -109,5 +110,13 @@ class PlaybackService : Service() {
 
     override fun onBind(p0: Intent?): IBinder? {
         return binder
+    }
+
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+        player?.stop()
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
     }
 }

@@ -1,6 +1,7 @@
 package com.example.mediaplayer.ui
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,11 @@ import com.example.mediaplayer.R
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.mediaplayer.service.PlaybackService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
+import kotlin.jvm.java
 
 class LibraryFragment : Fragment() {
     private var _binding : FragmentLibraryBinding? = null
@@ -100,6 +103,9 @@ class LibraryFragment : Fragment() {
                 .setPositiveButton("Esci") { dialog, which ->
 
                     viewModel.clearUserData()
+
+                    val stopIntent = Intent(requireContext(), PlaybackService::class.java)
+                    requireContext().stopService(stopIntent)
 
                     com.firebase.ui.auth.AuthUI.getInstance()
                         .signOut(requireContext())
