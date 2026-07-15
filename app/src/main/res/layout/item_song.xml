@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +10,6 @@
         android:id="@+id/imageViewCover"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:contentDescription="Immagine del brano"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,16 +22,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:ellipsize="end"
+        tools:text="Titolo Canzone"
         android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textViewArtist"
         app:layout_constraintEnd_toStartOf="@+id/textViewPlayCount"
         app:layout_constraintStart_toEndOf="@+id/imageViewCover"
         app:layout_constraintTop_toTopOf="@+id/imageViewCover"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Titolo della Canzone" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/textViewArtist"
@@ -42,14 +40,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="4dp"
-        android:ellipsize="end"
+        tools:text="Artista"
         android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewCover"
         app:layout_constraintEnd_toStartOf="@+id/textViewPlayCount"
         app:layout_constraintStart_toEndOf="@+id/imageViewCover"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-        tools:text="Nome Artista" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
     <TextView
         android:id="@+id/textViewPlayCount"
@@ -58,9 +56,11 @@
         android:layout_marginEnd="8dp"
         android:textSize="12sp"
         android:textStyle="italic"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="5 ascolti"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="5 ascolti" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,9 +32,12 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
 
+        val appBarConfiguration = androidx.navigation.ui.AppBarConfiguration(
+            setOf(R.id.welcomeFragment, R.id.libraryFragment, R.id.favoritesFragment)
+        )
         binding.bottomNav.setupWithNavController(navController)
         setSupportActionBar(binding.topToolbar)
-        binding.topToolbar.setupWithNavController(navController)
+        binding.topToolbar.setupWithNavController(navController, appBarConfiguration)
 
         //tolgo la bottomnavigation quando sono nel player o nel welcome
         navController.addOnDestinationChangedListener { _, destination, _ ->

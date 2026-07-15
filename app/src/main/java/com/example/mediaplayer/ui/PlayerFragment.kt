@@ -100,17 +100,17 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         observerViewModel()
     }
 
     private fun observerViewModel(){
         viewModel.currentSong.observe(viewLifecycleOwner){ song ->
             if(song == null) return@observe
-
-            binding.textViewTitle.text = song.title
-            binding.textViewArtist.text = song.artist
-            binding.imageViewCover.loadCover(song.coverUrl, isHighRes = true);
-
+            binding.imageViewCover.loadCover(song.coverUrl, isHighRes = true)
             viewModel.checkIfFavorite(song.id)
 
             viewModel.incrementPlayCount(song.id)
@@ -118,22 +118,12 @@ class PlayerFragment : Fragment() {
             val intent = Intent(requireContext(), PlaybackService::class.java).apply {
                 putExtra(PlaybackService.EXTRA_AUDIO_URL, song.previewUrl)
             }
-            ContextCompat.startForegroundService(requireContext(), intent)
+            androidx.core.content.ContextCompat.startForegroundService(requireContext(), intent)
             if(!isBound) {
-                requireContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+                requireContext().bindService(intent, serviceConnection, android.content.Context.BIND_AUTO_CREATE)
             }
-
         }
 
-        viewModel.isFavorite.observe(viewLifecycleOwner){ isFav ->
-            val iconResurce = if(isFav){
-                R.drawable.ic_heart_filledd
-            }else{
-                R.drawable.ic_heart_empty
-            }
-            binding.imageViewFavorite.setImageResource(iconResurce)
-
-        }
     }
 
     private fun setupUIControls(){

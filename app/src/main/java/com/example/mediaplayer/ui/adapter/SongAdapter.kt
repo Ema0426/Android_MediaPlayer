@@ -25,27 +25,20 @@ class SongAdapter (
             binding.textViewArtist.text = song.artist
             binding.textViewTitle.text = song.title
 
-            binding.imageViewCover.loadCover(song.coverUrl)
-
             if (song.playCount > 0) {
                 binding.textViewPlayCount.visibility = android.view.View.VISIBLE
-
-                if (song.playCount == 1) {
-                    binding.textViewPlayCount.text = "1 ascolto"
-                } else {
-                    binding.textViewPlayCount.text = "${song.playCount} ascolti"
-                }
+                binding.textViewPlayCount.text = if (song.playCount == 1) "1 ascolto" else "${song.playCount} ascolti"
             } else {
                 binding.textViewPlayCount.visibility = android.view.View.GONE
             }
 
+            binding.imageViewCover.loadCover(song.coverUrl)
 
             binding.root.setOnClickListener {
                 onSongClick(song)
             }
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val binding = ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SongViewHolder(binding)

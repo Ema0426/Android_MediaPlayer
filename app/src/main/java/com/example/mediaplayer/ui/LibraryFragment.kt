@@ -43,6 +43,8 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.listenToFavorites()
 
@@ -100,15 +102,6 @@ class LibraryFragment : Fragment() {
             adapter.updateSongs(songsList)
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            if(isLoading){
-                binding.progressBar.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            }else{
-                binding.progressBar.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-            }
-        }
     }
 
     override fun onDestroyView() {
