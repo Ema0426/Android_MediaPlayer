@@ -112,7 +112,7 @@ class MusicViewModel : ViewModel() {
             .document(song.id.toString())
             .set(song)
             .addOnSuccessListener {
-                Log.d("MusicViewModel", "Traccia ${song.title} aggiunta hai preferiti")
+                Log.d("MusicViewModel", "Traccia ${song.title} aggiunta ai preferiti")
             }
             .addOnFailureListener {
                 Log.d("MusicViewModel", "Errore durante il salvataggio nei preferiti")
