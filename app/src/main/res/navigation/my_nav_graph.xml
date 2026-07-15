@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.example.mediaplayer.ui.LibraryFragment"
-        android:label="Library"
+        android:label="@string/libreria"
         tools:layout="@layout/fragment_library">
 
         <action
@@ -40,7 +40,7 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.mediaplayer.ui.FavoritesFragment"
-        android:label="FavoritesFragment"
+        android:label="@string/preferiti"
         tools:layout="@layout/fragment_favorites">
 
         <action
