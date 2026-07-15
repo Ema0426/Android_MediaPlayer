@@ -29,7 +29,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textViewArtist"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewPlayCount"
         app:layout_constraintStart_toEndOf="@+id/imageViewCover"
         app:layout_constraintTop_toTopOf="@+id/imageViewCover"
         app:layout_constraintVertical_chainStyle="packed"
@@ -46,10 +46,21 @@
         android:maxLines="1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewCover"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewPlayCount"
         app:layout_constraintStart_toEndOf="@+id/imageViewCover"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         tools:text="Nome Artista" />
 
+    <TextView
+        android:id="@+id/textViewPlayCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="5 ascolti" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

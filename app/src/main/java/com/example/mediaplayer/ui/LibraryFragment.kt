@@ -17,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.mediaplayer.service.PlaybackService
+import com.example.mediaplayer.showLogoutDialog
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
@@ -49,8 +50,7 @@ class LibraryFragment : Fragment() {
         setupRecyclerView()
         observerViewModel()
         setupSearchInput()
-        setupLogout()
-
+        binding.btnLogout.setOnClickListener { showLogoutDialog(viewModel) }
 
 
     }
@@ -95,30 +95,6 @@ class LibraryFragment : Fragment() {
     }
 
 
-    private fun setupLogout() {
-        binding.btnLogout.setOnClickListener {
-            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Disconnessione")
-                .setMessage("Sei sicuro di voler uscire dal tuo account?")
-                .setPositiveButton("Esci") { dialog, which ->
-
-                    viewModel.clearUserData()
-
-                    val stopIntent = Intent(requireContext(), PlaybackService::class.java)
-                    requireContext().stopService(stopIntent)
-
-                    com.firebase.ui.auth.AuthUI.getInstance()
-                        .signOut(requireContext())
-                        .addOnCompleteListener {
-                            findNavController().navigate(R.id.action_global_WelcomeFragment)
-                        }
-                }
-                .setNegativeButton("Annulla") { dialog, which ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
-    }
 
 
     private fun observerViewModel(){

@@ -57,14 +57,38 @@
             app:layout_constraintTop_toBottomOf="@id/textViewTitle"
             tools:text="Nome Artista" />
 
+        <TextView
+            android:id="@+id/textViewCurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/seekBar"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
+
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             app:layout_constraintBottom_toTopOf="@id/fabPlayPause"
+            app:layout_constraintEnd_toStartOf="@+id/textViewTotalTime"
+            app:layout_constraintStart_toEndOf="@+id/textViewCurrentTime" />
+
+        <TextView
+            android:id="@+id/textViewTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/seekBar"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabPlayPause"

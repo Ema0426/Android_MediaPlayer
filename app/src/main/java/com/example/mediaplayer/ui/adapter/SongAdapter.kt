@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.ItemSongBinding
+import com.example.mediaplayer.loadCover
 import com.example.mediaplayer.model.Song
 
 /*
@@ -24,11 +25,20 @@ class SongAdapter (
             binding.textViewArtist.text = song.artist
             binding.textViewTitle.text = song.title
 
-            binding.imageViewCover.load(song.coverUrl){
-                crossfade(true)
-                placeholder(R.drawable.ic_launcher_background)
-                error(R.drawable.ic_launcher_foreground)
+            binding.imageViewCover.loadCover(song.coverUrl)
+
+            if (song.playCount > 0) {
+                binding.textViewPlayCount.visibility = android.view.View.VISIBLE
+
+                if (song.playCount == 1) {
+                    binding.textViewPlayCount.text = "1 ascolto"
+                } else {
+                    binding.textViewPlayCount.text = "${song.playCount} ascolti"
+                }
+            } else {
+                binding.textViewPlayCount.visibility = android.view.View.GONE
             }
+
 
             binding.root.setOnClickListener {
                 onSongClick(song)

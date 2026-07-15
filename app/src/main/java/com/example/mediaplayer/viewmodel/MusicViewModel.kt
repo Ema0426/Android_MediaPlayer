@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.FieldValue
 
 /*
 * ci consente di mantenere i nostri dati anche se il fragment o activity vengono distrutti.
@@ -38,6 +39,7 @@ class MusicViewModel : ViewModel() {
 
     private var favoritesListener: ListenerRegistration? = null
 
+    private var lastIncrementedSongId: Long = -1L
     private var currentQueue: List<Song> = emptyList()
     private var currentIndex: Int = 0
 
@@ -134,6 +136,23 @@ class MusicViewModel : ViewModel() {
                 Log.d("MusicViewModel", "Errore durante la rimozione dai preferiti")
             }
     }
+    fun incrementPlayCount(songId: Long) {
+        val uid = auth.currentUser?.uid ?: return
+        if (songId == lastIncrementedSongId) return
+
+        lastIncrementedSongId = songId
+        db.collection("Users")
+            .document(uid)
+            .collection("Favorites")
+            .document(songId.toString())
+            .update("playCount", FieldValue.increment(1))
+            .addOnSuccessListener {
+                Log.d("MusicViewModel", "PlayCount aggiornato (+1) per la canzone $songId")
+            }
+            .addOnFailureListener {
+                Log.d("MusicViewModel", "Nessun aggiornamento (la canzone non è nei preferiti)")
+            }
+    }
 
     fun listenToFavorites() {
         val uid = auth.currentUser?.uid ?: return
@@ -164,6 +183,10 @@ class MusicViewModel : ViewModel() {
         _favoriteSongs.value = emptyList()
         _isFavorite.value = false
         _songs.value = emptyList()
+
+        favoritesListener?.remove()
+        favoritesListener = null
+        lastIncrementedSongId = -1L
     }
 
 }

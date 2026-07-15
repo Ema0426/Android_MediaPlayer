@@ -16,5 +16,7 @@ data class Song (
     val previewUrl : String = "",
 
     @SerializedName("artworkUrl100")
-    val coverUrl : String? = null
+    val coverUrl : String? = null,
+
+    val playCount: Int = 0
     )

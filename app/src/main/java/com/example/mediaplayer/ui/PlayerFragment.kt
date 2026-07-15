@@ -19,6 +19,8 @@ import androidx.media3.exoplayer.ExoPlayer
 import coil.load
 import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.FragmentPlayerBinding
+import com.example.mediaplayer.formatAsTime
+import com.example.mediaplayer.loadCover
 import com.example.mediaplayer.service.PlaybackService
 import com.example.mediaplayer.viewmodel.MusicViewModel
 import kotlinx.coroutines.delay
@@ -45,6 +47,7 @@ class PlayerFragment : Fragment() {
             if(playbackState == Player.STATE_READY){
                 exoPlayer?.let{ player ->
                     binding.seekBar.max = player.duration.toInt()
+                    binding.textViewTotalTime.text = player.duration.formatAsTime()
                 }
             }
             else if (playbackState == Player.STATE_ENDED) {
@@ -67,7 +70,9 @@ class PlayerFragment : Fragment() {
                 updatePlayPauseButtonIcon(player.isPlaying)
                 if (player.playbackState == Player.STATE_READY) {
                     binding.seekBar.max = player.duration.toInt()
+                    binding.textViewTotalTime.text = player.duration.formatAsTime()
                     binding.seekBar.progress = player.currentPosition.toInt()
+                    binding.textViewCurrentTime.text = player.currentPosition.formatAsTime()
                 }
             }
 
@@ -104,14 +109,11 @@ class PlayerFragment : Fragment() {
 
             binding.textViewTitle.text = song.title
             binding.textViewArtist.text = song.artist
-            val highResUrl = song.coverUrl?.replace("100x100bb.jpg", "600x600bb.jpg")
-            binding.imageViewCover.load(highResUrl){
-                crossfade(true)
-                placeholder(R.drawable.ic_launcher_background)
-                error(R.drawable.ic_launcher_foreground)
-            }
+            binding.imageViewCover.loadCover(song.coverUrl, isHighRes = true);
 
             viewModel.checkIfFavorite(song.id)
+
+            viewModel.incrementPlayCount(song.id)
 
             val intent = Intent(requireContext(), PlaybackService::class.java).apply {
                 putExtra(PlaybackService.EXTRA_AUDIO_URL, song.previewUrl)
@@ -155,7 +157,11 @@ class PlayerFragment : Fragment() {
         }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    binding.textViewCurrentTime.text = progress.toLong().formatAsTime()
+                }
+            }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
@@ -182,6 +188,7 @@ class PlayerFragment : Fragment() {
                 exoPlayer?.let{ player ->
                     if(player.isPlaying){
                         binding.seekBar.progress = player.currentPosition.toInt()
+                        binding.textViewCurrentTime.text = player.currentPosition.formatAsTime()
                     }
                 }
                 delay(250)

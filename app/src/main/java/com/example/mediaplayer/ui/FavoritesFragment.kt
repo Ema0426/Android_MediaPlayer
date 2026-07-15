@@ -15,6 +15,7 @@ import com.example.mediaplayer.viewmodel.MusicViewModel
 import kotlin.getValue
 import com.example.mediaplayer.service.PlaybackService
 import android.content.Intent
+import com.example.mediaplayer.showLogoutDialog
 import kotlin.jvm.java
 
 
@@ -45,7 +46,7 @@ class FavoritesFragment : Fragment() {
         setupRecyclerView()
         observerViewModel()
         setupSearchView()
-        setupLogout()
+        binding.btnLogout.setOnClickListener { showLogoutDialog(viewModel) }
 
     }
 
@@ -100,30 +101,6 @@ class FavoritesFragment : Fragment() {
         binding.recyclerView.adapter = adapter
     }
 
-    private fun setupLogout() {
-        binding.btnLogout.setOnClickListener {
-            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Disconnessione")
-                .setMessage("Sei sicuro di voler uscire dal tuo account?")
-                .setPositiveButton("Esci") { dialog, which ->
-
-                    viewModel.clearUserData()
-
-                    val stopIntent = Intent(requireContext(), PlaybackService::class.java)
-                    requireContext().stopService(stopIntent)
-
-                    com.firebase.ui.auth.AuthUI.getInstance()
-                        .signOut(requireContext())
-                        .addOnCompleteListener {
-                            findNavController().navigate(R.id.action_global_WelcomeFragment)
-                        }
-                }
-                .setNegativeButton("Annulla") { dialog, which ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
-    }
 
     private fun observerViewModel(){
         viewModel.favoriteSongs.observe(viewLifecycleOwner) {
