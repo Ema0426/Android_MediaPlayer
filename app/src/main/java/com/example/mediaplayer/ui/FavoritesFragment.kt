@@ -41,6 +41,8 @@ class FavoritesFragment : Fragment() {
         setupRecyclerView()
         observerViewModel()
         setupSearchView()
+        setupLogout()
+
     }
 
     private fun setupSearchView() {
@@ -92,6 +94,28 @@ class FavoritesFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
+    }
+
+    private fun setupLogout() {
+        binding.btnLogout.setOnClickListener {
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Disconnessione")
+                .setMessage("Sei sicuro di voler uscire dal tuo account?")
+                .setPositiveButton("Esci") { dialog, which ->
+
+                    viewModel.clearUserData()
+
+                    com.firebase.ui.auth.AuthUI.getInstance()
+                        .signOut(requireContext())
+                        .addOnCompleteListener {
+                            findNavController().navigate(R.id.action_global_WelcomeFragment)
+                        }
+                }
+                .setNegativeButton("Annulla") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
     }
 
     private fun observerViewModel(){

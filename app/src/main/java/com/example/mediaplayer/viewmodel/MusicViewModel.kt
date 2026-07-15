@@ -10,6 +10,7 @@ import com.example.mediaplayer.network.RetrofitClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import com.google.firebase.firestore.ListenerRegistration
 
 /*
 * ci consente di mantenere i nostri dati anche se il fragment o activity vengono distrutti.
@@ -35,6 +36,7 @@ class MusicViewModel : ViewModel() {
     private val _favoriteSongs = MutableLiveData<List<Song>>()
     val favoriteSongs: LiveData<List<Song>> get() = _favoriteSongs
 
+    private var favoritesListener: ListenerRegistration? = null
 
     private var currentQueue: List<Song> = emptyList()
     private var currentIndex: Int = 0
@@ -133,8 +135,10 @@ class MusicViewModel : ViewModel() {
             }
     }
 
-    private fun listenToFavorites() {
+    fun listenToFavorites() {
         val uid = auth.currentUser?.uid ?: return
+
+        favoritesListener?.remove()
 
         db.collection("Users")
             .document(uid)
@@ -147,8 +151,19 @@ class MusicViewModel : ViewModel() {
                 if (snapshot != null) {
                     val songs = snapshot.documents.mapNotNull { it.toObject(Song::class.java) }
                     _favoriteSongs.value = songs
+
+                    _currentSong.value?.let { current ->
+                        checkIfFavorite(current.id)
+                    }
                 }
             }
+    }
+
+
+    fun clearUserData() {
+        _favoriteSongs.value = emptyList()
+        _isFavorite.value = false
+        _songs.value = emptyList()
     }
 
 }

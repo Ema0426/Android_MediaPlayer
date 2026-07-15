@@ -40,9 +40,16 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        viewModel.listenToFavorites()
+
         setupRecyclerView()
         observerViewModel()
         setupSearchInput()
+        setupLogout()
+
+
+
     }
 
     private fun setupSearchInput(){
@@ -83,6 +90,31 @@ class LibraryFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
     }
+
+
+    private fun setupLogout() {
+        binding.btnLogout.setOnClickListener {
+            com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Disconnessione")
+                .setMessage("Sei sicuro di voler uscire dal tuo account?")
+                .setPositiveButton("Esci") { dialog, which ->
+
+                    viewModel.clearUserData()
+
+                    com.firebase.ui.auth.AuthUI.getInstance()
+                        .signOut(requireContext())
+                        .addOnCompleteListener {
+                            findNavController().navigate(R.id.action_global_WelcomeFragment)
+                        }
+                }
+                .setNegativeButton("Annulla") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+    }
+
+
     private fun observerViewModel(){
         viewModel.songs.observe(viewLifecycleOwner){ songsList ->
             adapter.updateSongs(songsList)

@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
 
 
-        //tolgo la bottomnavigation quando sono nel player
+        //tolgo la bottomnavigation quando sono nel player o nel welcome
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.playerFragment) {
+            if (destination.id == R.id.playerFragment || destination.id == R.id.welcomeFragment) {
                 binding.bottomNav.visibility = android.view.View.GONE
             } else {
                 binding.bottomNav.visibility = android.view.View.VISIBLE
