@@ -14,7 +14,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
-import androidx.databinding.BindingAdapter
 
 fun Fragment.showLogoutDialog(viewModel: MusicViewModel) {
     MaterialAlertDialogBuilder(requireContext())

@@ -10,9 +10,7 @@ import com.example.mediaplayer.model.Song
 
 /*
 *   in sostanza stiamo collegando la classe Song,
-*   con la RecyclerView. quando deve far apparire le canzoni
-*   ne allocherà solo il numero necessario visualizzabile a schermo.
-*   quando scorri la lista, se ne occuperà il GC a deallocare tutto quanto
+*   con la RecyclerView.
 *
 */
 class SongAdapter (

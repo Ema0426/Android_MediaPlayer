@@ -10,8 +10,3 @@
         android:title="@string/preferiti" />
 
 </menu>
-
-    <!-- Infine, nella cartella res/menu, creerai il file per popolare
-    le icone e le voci della Bottom Navigation Bar, facendo assoluta attenzione
-    a far coincidere gli ID di questi bottoni con gli ID delle destinazioni presenti
-    nel NavGraph per attivare la navigazione automatica offerta da NavigationUI. -->

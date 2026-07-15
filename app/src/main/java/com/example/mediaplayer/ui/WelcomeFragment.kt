@@ -15,18 +15,6 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 
-/*
-    *   piccola spiegazione di cosa si sta facendo qui :
-    *   stiamo effettuando il binding tra questa classe e il file XML inerente alla Welcome,
-    *   in modo da poter accedere in modo rapido agli elementi grafici.
-    *
-    *   guardare le esercitazioni: navigation
-    *   siti visionati :
-    *   https://stackoverflow.com/questions/62952957/viewbinding-in-fragment
-    *   https://www.geeksforgeeks.org/android/data-binding-in-android-activities-views-and-fragments/
-    *
-    *
-*/
 
 class WelcomeFragment : Fragment() {
     private var _binding: FragmentWelcomeBinding? = null

@@ -1,7 +1,6 @@
 package com.example.mediaplayer.ui
 
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
@@ -10,14 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import coil.load
-import com.example.mediaplayer.R
 import com.example.mediaplayer.databinding.FragmentPlayerBinding
 import com.example.mediaplayer.formatAsTime
 import com.example.mediaplayer.loadCover
@@ -75,7 +71,6 @@ class PlayerFragment : Fragment() {
                     binding.textViewCurrentTime.text = player.currentPosition.formatAsTime()
                 }
             }
-
 
             startProgressLoop()
             setupUIControls()

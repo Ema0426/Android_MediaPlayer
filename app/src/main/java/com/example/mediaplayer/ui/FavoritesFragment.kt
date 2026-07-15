@@ -13,11 +13,7 @@ import com.example.mediaplayer.databinding.FragmentFavoritesBinding
 import com.example.mediaplayer.ui.adapter.SongAdapter
 import com.example.mediaplayer.viewmodel.MusicViewModel
 import kotlin.getValue
-import com.example.mediaplayer.service.PlaybackService
-import android.content.Intent
 import com.example.mediaplayer.setupLogoutMenu
-import com.example.mediaplayer.showLogoutDialog
-import kotlin.jvm.java
 
 
 class FavoritesFragment : Fragment() {
@@ -116,7 +112,6 @@ class FavoritesFragment : Fragment() {
         _binding = null
         super.onDestroyView()
     }
-
 
 
 }

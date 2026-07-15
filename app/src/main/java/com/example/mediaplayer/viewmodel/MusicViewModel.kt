@@ -13,12 +13,7 @@ import kotlinx.coroutines.launch
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.FieldValue
 
-/*
-* ci consente di mantenere i nostri dati anche se il fragment o activity vengono distrutti.
-* all'interno dello scope "viewModelScope"
-*
-*
-*/
+
 class MusicViewModel : ViewModel() {
     private val _songs = MutableLiveData<List<Song>>()
     val songs : LiveData<List<Song>> get() =  _songs
