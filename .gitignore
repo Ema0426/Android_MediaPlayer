@@ -27,7 +27,7 @@ local.properties
 *.class
 *.log
 
-
+app/google-services.json
 **/build/
 **/local.properties
 .navigation/
