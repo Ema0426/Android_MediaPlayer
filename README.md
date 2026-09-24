@@ -142,11 +142,6 @@ On Android 13+ the background playback notification only shows up if **notificat
 
 ---
 
-## 👥 Authors
-
-- **Andrea Vaccari**
-- **[Ema0426](https://github.com/Ema0426)**
-
 ## 📄 License
 
 Distributed under the **MIT** License. See [LICENSE](LICENSE) for details.
